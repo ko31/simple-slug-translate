@@ -211,7 +211,7 @@ class simple_slug_translate {
     }
 
     public function api_section_callback() { 
-        echo '<p>' . __( 'Input your own username and password for Watson Language Translator API ( <a href="https://console.bluemix.net/registration/free" target="_blank">Register</a> )', $this->text_domain ) . '</p>';
+        echo '<p>' . __( 'Input your own username and password for Watson Language Translator API ( <a href="https://console.ng.bluemix.net/registration/free" target="_blank">Register</a> )', $this->text_domain ) . '</p>';
     }
 
     public function translation_section_callback() { 
