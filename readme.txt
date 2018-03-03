@@ -1,4 +1,4 @@
-=== Memorable Password ===
+=== Simple Slug Translate ===
 Contributors: ko31
 Donate link: https://go-sign.info
 Tags: slugs, permalink, translate, translation
@@ -6,6 +6,7 @@ Requires at least: 4.3
 Tested up to: 4.9.4
 Stable tag: 1.0.0
 License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Simple Slug Translate can translate the post, page, category and taxonomy slugs to English automatically.
 
@@ -13,20 +14,17 @@ Simple Slug Translate can translate the post, page, category and taxonomy slugs 
 
 Simple Slug Translate can translate the post, page, category and taxonomy slugs to English automatically.
 
-By default WordPress generates a very strong password. But I feel like something is just not there.
+It can make the permalink looks more better, and also may be good for SEO.
 
-This is a spice of password.
+The translation engine is powered by [Watson Language Translator](https://www.ibm.com/watson/services/language-translator/). It supports 9 languages.(English, Arabic, French, German, Italian, Japanese, Portuguese, Korean, and Spanish)
 
-= Related Links =
+In order to use the service, you can apply for an [IBM Cloud Lite](https://www.ibm.com/cloud/lite-account) account and get your own username and password of Watson Language Translator. For free plan, you can translate up to 1,000,000 characters per month.
+
+== Related Links ==
+
 * [Github](https://github.com/ko31/simple-slug-translate)
 
 == Installation ==
-
-= Requirements =
-
-This plugin requires the [Watson Language Translator](https://www.ibm.com/watson/services/language-translator/). If you do not have an account, you can sign up for a free [IBM Cloud Lite account](https://console.bluemix.net/registration/free).
-
-= Installing the Plugin =
 
 1. Upload the simple-slug-translate directory to the plugins directory.
 1. Activate the plugin through the 'Plugins' menu in WordPress.
@@ -35,7 +33,17 @@ This plugin requires the [Watson Language Translator](https://www.ibm.com/watson
 1. "Translation Settings": Choose your "Source language".
 1. When you will update the post, then the post slug will be automatically translated into English. The page, category and taxonomy as well.
 
+== Frequently asked questions ==
+
+= What do I need to use this plugin? =
+
+You need to apply for an [IBM Cloud Lite](https://www.ibm.com/cloud/lite-account) account and get your own username and password of Watson Language Translator.
+
+This plugin uses the username and password to query the translation engine. The username and password are not used except for query!
+
 == Changelog ==
 
 = 1.0.0 =
 * Initial Release
+
+
