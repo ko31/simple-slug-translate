@@ -45,7 +45,9 @@ class simple_slug_translate {
     public function register()
     {
         add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
+        add_action( $this->plugin_slug . '_scheduled_event', array( $this, 'call_scheduled_event' ) );
         register_activation_hook( __FILE__ , array( $this, 'register_activation_hook' ) );
+        register_deactivation_hook( __FILE__, array( $this, 'register_deactivation_hook' ) );
     }
 
     public function register_activation_hook()
@@ -60,6 +62,19 @@ class simple_slug_translate {
                 'source' => $this->get_default_source()
             ) );
         }
+        if ( !wp_next_scheduled( 'daily_sample_event' ) ) {
+            wp_schedule_event( time(), 'daily', $this->plugin_slug . '_scheduled_event' );
+        }
+    }
+
+    public function register_deactivation_hook()
+    {
+        wp_clear_scheduled_hook( $this->plugin_slug . '_scheduled_event' );
+    }
+
+    public function call_scheduled_event()
+    {
+        $this->sanitize_title( 'a' );
     }
 
     public function plugins_loaded()
