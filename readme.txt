@@ -50,7 +50,8 @@ This plugin uses the username and password to query the translation engine. The 
 
 == Changelog ==
 
+= 1.0.1 =
+* Add scheduled event
+
 = 1.0.0 =
 * Initial Release
-
-
