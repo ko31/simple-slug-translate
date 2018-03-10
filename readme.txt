@@ -33,6 +33,11 @@ In order to use the service, you can apply for an [IBM Cloud Lite](https://www.i
 1. "Translation Settings": Choose your "Source language".
 1. When you will update the post, then the post slug will be automatically translated into English. The page, category and taxonomy as well.
 
+Learn more:
+
+* [Documentation(English)](https://github.com/ko31/simple-slug-translate/wiki/Documentation)
+* [Documentation(Japanese)](https://github.com/ko31/simple-slug-translate/wiki/%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88)
+
 == Frequently asked questions ==
 
 = What do I need to use this plugin? =
