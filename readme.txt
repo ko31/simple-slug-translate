@@ -23,6 +23,8 @@ In order to use the service, you can apply for an [IBM Cloud Lite](https://www.i
 == Related Links ==
 
 * [Github](https://github.com/ko31/simple-slug-translate)
+* [Documentation(English)](https://github.com/ko31/simple-slug-translate/wiki/Documentation)
+* [Documentation(Japanese)](https://github.com/ko31/simple-slug-translate/wiki/%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88)
 
 == Installation ==
 
