@@ -22,7 +22,7 @@ class simple_slug_translate {
     private $plugin_slug = '';
     private $option_name = '';
     private $options;
-	private $has_mbfunctions = false;
+    private $has_mbfunctions = false;
 
     function __construct()
     {
@@ -39,7 +39,7 @@ class simple_slug_translate {
         $this->langs = $data['langs'];
         $this->plugin_slug = basename( dirname( __FILE__ ) );
         $this->option_name = basename( dirname( __FILE__ ) );
-		$this->has_mbfunctions = $this->mbfunctions_exist();
+        $this->has_mbfunctions = $this->mbfunctions_exist();
     }
 
     public function register()
@@ -52,17 +52,17 @@ class simple_slug_translate {
 
     public function register_activation_hook()
     {
-		if ( !$this->has_mbfunctions ) {
-			deactivate_plugins( __FILE__ );
+        if ( ! $this->has_mbfunctions ) {
+            deactivate_plugins( __FILE__ );
             exit( __( 'Sorry, Simple Slug Translate requires <a href="http://www.php.net/manual/en/mbstring.installation.php" target="_blank">mbstring</a> functions.', $this->text_domain ) );
-		}
+        }
         $options = get_option( $this->option_name );
         if ( empty( $options ) ) {
             add_option( $this->option_name, array(
                 'source' => $this->get_default_source()
             ) );
         }
-        if ( !wp_next_scheduled( 'daily_sample_event' ) ) {
+        if ( ! wp_next_scheduled( 'daily_sample_event' ) ) {
             wp_schedule_event( time(), 'daily', $this->plugin_slug . '_scheduled_event' );
         }
     }
@@ -92,7 +92,7 @@ class simple_slug_translate {
 
     public function sanitize_title( $title )
     {
-		if ( !$this->has_mbfunctions ) {
+        if ( ! $this->has_mbfunctions ) {
             return $title;
         }
 
@@ -104,8 +104,8 @@ class simple_slug_translate {
         if ( empty( $this->options['username'] ) ||
             empty( $this->options['password'] ) ||
             empty( $this->options['source'] ) ) {
-            return $title;
-        }
+                return $title;
+            }
         $auth = base64_encode( $this->options['username'] . ':' . $this->options['password'] );
 
         $endpoint = 'https://gateway.watsonplatform.net/language-translator/api/v2/translate';
@@ -127,7 +127,7 @@ class simple_slug_translate {
             )
         );
 
-        if ( !is_wp_error( $response ) ) {
+        if ( ! is_wp_error( $response ) ) {
             $code = $response['response']['code'];
             // 200 - OK
             // 400 - Bad Request
@@ -203,21 +203,21 @@ class simple_slug_translate {
 
     public function sanitize_callback( $input ) { 
 
-        if ( !is_array( $input ) ) {
+        if ( ! is_array( $input ) ) {
             $input = (array)$input;
         }
 
-        if ( !$input['username'] ) {
+        if ( ! $input['username'] ) {
             add_settings_error( $this->plugin_slug, 'empty_username', __( 'Please input username', $this->text_domain ) );
         }
 
-        if ( !$input['password'] ) {
+        if ( ! $input['password'] ) {
             add_settings_error( $this->plugin_slug, 'empty_password', __( 'Please input password', $this->text_domain ) );
         }
 
-        if ( !$input['source'] ) {
+        if ( ! $input['source'] ) {
             add_settings_error( $this->plugin_slug, 'empty_source', __( 'Please select source language', $this->text_domain ) );
-        } else if ( !$this->is_supported_source( $input['source'] ) ) {
+        } else if ( ! $this->is_supported_source( $input['source'] ) ) {
             add_settings_error( $this->plugin_slug, 'empty_source', __( 'Source language is invalid', $this->text_domain ) );
             $input['source'] = 'en';
         }
@@ -306,9 +306,9 @@ class simple_slug_translate {
         );
     }
 
-	public function mbfunctions_exist() {
-		return ( function_exists( 'mb_strlen' ) ) ? true : false;
-	}
+    public function mbfunctions_exist() {
+        return ( function_exists( 'mb_strlen' ) ) ? true : false;
+    }
 
 } // end class simple_slug_translate
 
