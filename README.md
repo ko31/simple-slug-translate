@@ -31,6 +31,10 @@ Learn more:
 
 ## Changelog
 
+### 1.1.0
+
+* Add API settings check
+
 ### 1.0.1
 
 * Add scheduled event

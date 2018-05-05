@@ -3,7 +3,7 @@
  * Plugin Name:     Simple Slug Translate
  * Plugin URI:      https://github.com/ko31/simple-slug-translate
  * Description:     Simple Slug Translate can translate the post, page, category and taxonomy slugs to English automatically.
- * Version:         1.0.1
+ * Version:         1.1.0
  * Author:          Ko Takagi
  * Author URI:      https://go-sign.info
  * License:         GPLv2
@@ -100,11 +100,22 @@ class simple_slug_translate {
             return $title;
         }
 
+        $result = $this->translate( $title );
+
+        return $result['text'];
+    }
+
+    public function translate( $text )
+    {
+
         $this->options = get_option( $this->option_name );
         if ( empty( $this->options['username'] ) ||
             empty( $this->options['password'] ) ||
             empty( $this->options['source'] ) ) {
-                return $title;
+				return array(
+					'code' => '',
+					'text' => $text,
+				);
             }
         $auth = base64_encode( $this->options['username'] . ':' . $this->options['password'] );
 
@@ -120,27 +131,35 @@ class simple_slug_translate {
                     'Authorization' => 'Basic ' . $auth,
                 ),
                 'body' => array(
-                    'text' => $title,
+                    'text' => $text,
                     'source' => $this->options['source'],
                     'target' => 'en',
                 ),
             )
         );
 
-        if ( ! is_wp_error( $response ) ) {
-            $code = $response['response']['code'];
-            // 200 - OK
-            // 400 - Bad Request
-            // 401 - Unauthorized
-            // 404 - Not Found
-            // 500 - Server Errors
-            if ( $code == 200 ) {
-                $body = json_decode($response['body']);
-                $title = sanitize_title( $body->translations[0]->translation );
-            }
-        }
+        if ( is_wp_error( $response ) ) {
+			return array(
+				'code' => '',
+				'text' => $text,
+			);
+		}
 
-        return $title;
+		$code = $response['response']['code'];
+		// 200 - OK
+		// 400 - Bad Request
+		// 401 - Unauthorized
+		// 404 - Not Found
+		// 500 - Server Errors
+		if ( $code == 200 ) {
+			$body = json_decode($response['body']);
+			$text = sanitize_title( $body->translations[0]->translation );
+		}
+
+		return array(
+			'code' => $code,
+			'text' => $text,
+		);
     }
 
     public function admin_menu()
@@ -169,18 +188,26 @@ class simple_slug_translate {
             $this->plugin_slug
         );
 
-        add_settings_field( 
-            'username', 
+        add_settings_field(
+            'username',
             __( 'Username', $this->text_domain ),
             array( $this, 'username_callback' ),
             $this->plugin_slug,
             'api_settings'
         );
 
-        add_settings_field( 
-            'userpassword', 
+        add_settings_field(
+            'userpassword',
             __( 'Password', $this->text_domain ),
             array( $this, 'password_callback' ),
+            $this->plugin_slug,
+            'api_settings'
+        );
+
+        add_settings_field(
+            'checker',
+            '',
+            array( $this, 'checker_callback' ),
             $this->plugin_slug,
             'api_settings'
         );
@@ -192,8 +219,8 @@ class simple_slug_translate {
             $this->plugin_slug
         );
 
-        add_settings_field( 
-            'source', 
+        add_settings_field(
+            'source',
             __( 'Source language', $this->text_domain ),
             array( $this, 'source_callback' ),
             $this->plugin_slug,
@@ -201,7 +228,7 @@ class simple_slug_translate {
         );
     }
 
-    public function sanitize_callback( $input ) { 
+    public function sanitize_callback( $input ) {
 
         if ( ! is_array( $input ) ) {
             $input = (array)$input;
@@ -225,29 +252,42 @@ class simple_slug_translate {
         return $input;
     }
 
-    public function api_section_callback() { 
+    public function api_section_callback() {
         echo '<p>' . __( 'Input your own username and password for Watson Language Translator API ( <a href="https://console.ng.bluemix.net/registration/free" target="_blank">Register</a> )', $this->text_domain ) . '</p>';
     }
 
-    public function translation_section_callback() { 
+    public function translation_section_callback() {
         return;
     }
 
-    public function username_callback() { 
+    public function username_callback() {
         $username = isset( $this->options['username'] ) ? $this->options['username'] : '';
 ?>
 <input name="<?php echo $this->option_name;?>[username]" type="text" id="username" value="<?php echo $username;?>" class="regular-text">
 <?php
     }
 
-    public function password_callback() { 
+    public function password_callback() {
         $password = isset( $this->options['password'] ) ? $this->options['password'] : '';
 ?>
 <input name="<?php echo $this->option_name;?>[password]" type="text" id="password" value="<?php echo $password;?>" class="regular-text">
 <?php
     }
 
-    public function source_callback() { 
+    public function checker_callback() {
+        $username = isset( $this->options['username'] ) ? $this->options['username'] : '';
+        $password = isset( $this->options['password'] ) ? $this->options['password'] : '';
+        if ( $username && $password ) :
+			$result = $this->translate( 'test' );
+			if ( $result['code'] == 200 ) {
+				echo '<p class="description">' . sprintf( __( 'Username and password are valid', $this->text_domain ), $result['code'] ) . '</p>';
+			} else {
+				echo '<p class="description">' . sprintf( __( 'Invalid username or password ! (status: %s)', $this->text_domain ), $result['code'] ) . '</p>';
+			}
+        endif;
+    }
+
+    public function source_callback() {
         $source = isset( $this->options['source'] ) ? $this->options['source'] : 'en';
 ?>
 <select name="<?php echo $this->option_name;?>[source]" id="source">
