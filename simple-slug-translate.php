@@ -74,7 +74,7 @@ class simple_slug_translate {
 
     public function call_scheduled_event()
     {
-        $this->translate( 'a' );
+        $this->translate( 'test' );
     }
 
     public function plugins_loaded()
