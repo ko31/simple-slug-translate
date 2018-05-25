@@ -74,7 +74,7 @@ class simple_slug_translate {
 
     public function call_scheduled_event()
     {
-        $this->sanitize_title( 'a' );
+        $this->translate( 'a' );
     }
 
     public function plugins_loaded()
@@ -87,20 +87,68 @@ class simple_slug_translate {
 
         add_action( 'admin_menu', array( $this, 'admin_menu' ) );
         add_action( 'admin_init', array( $this, 'admin_init' ) );
-        add_filter( 'sanitize_title', array( $this, 'sanitize_title' ), 1 );
+        add_filter( 'name_save_pre', array( $this, 'name_save_pre' ) );
+        add_filter( 'wp_insert_term_data', array( $this, 'wp_insert_term_data' ), 10, 3 );
     }
 
-    public function sanitize_title( $title )
+    public function name_save_pre( $post_name )
+    {
+        global $post;
+
+        if ( $post_name ) {
+            return $post_name;
+        }
+
+        if ( ! $this->is_post_type( $post->post_type ) ) {
+            return $post_name;
+        }
+
+        if ( ! $this->is_post_status( $post->post_status ) ) {
+            return $post_name;
+        }
+
+        if ( empty( $post->post_title ) ) {
+            return $post_name;
+        }
+
+        $post_name = $this->call_translate( $post->post_title );
+        $post_name = wp_unique_post_slug( $post_name, $post->ID, $post->post_status, $post->post_type, $post->post_parent );
+
+        return $post_name;
+    }
+
+    public function is_post_type( $post_type )
+    {
+        return in_array( $post_type, array( 'post', 'page' ) );
+    }
+
+    public function is_post_status( $post_status )
+    {
+        return in_array( $post_status, array( 'draft', 'publish' ) );
+    }
+
+    public function wp_insert_term_data( $data, $taxonomy, $args )
+    {
+        if ( ! empty( $data ) && empty( $args['slug'] ) ) {
+            $slug = $this->call_translate( $data['name'] );
+            $slug = wp_unique_term_slug( $slug, (object) $args );
+            $data['slug'] = $slug;
+        }
+
+        return $data;
+    }
+
+    public function call_translate( $text )
     {
         if ( ! $this->has_mbfunctions ) {
-            return $title;
+            return $text;
         }
 
-        if ( strlen( $title ) == mb_strlen( $title, 'UTF-8' ) ) {
-            return $title;
+        if ( strlen( $text ) == mb_strlen( $text, 'UTF-8' ) ) {
+            return $text;
         }
 
-        $result = $this->translate( $title );
+        $result = $this->translate( $text );
 
         return $result['text'];
     }
