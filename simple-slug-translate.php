@@ -119,12 +119,32 @@ class simple_slug_translate {
 
     public function is_post_type( $post_type )
     {
-        return in_array( $post_type, array( 'post', 'page' ) );
+        /**
+         * Filters the post type to translate.
+         *
+         * @param array $types
+         */
+        $types = apply_filters( 'simple_slug_translate_post_type', array(
+            'post',
+            'page',
+        ) );
+
+        return in_array( $post_type, $types );
     }
 
     public function is_post_status( $post_status )
     {
-        return in_array( $post_status, array( 'draft', 'publish' ) );
+        /**
+         * Filters the post status to translate.
+         *
+         * @param array $statuses
+         */
+        $statuses = apply_filters( 'simple_slug_translate_post_status', array(
+            'draft',
+            'publish',
+        ) );
+
+        return in_array( $post_status, $statuses );
     }
 
     public function wp_insert_term_data( $data, $taxonomy, $args )
