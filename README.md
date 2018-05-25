@@ -31,6 +31,11 @@ Learn more:
 
 ## Changelog
 
+### 1.2.0
+
+* Fixed bugs
+* Add filter hook
+
 ### 1.1.0
 
 * Add API settings check

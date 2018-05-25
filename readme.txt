@@ -3,8 +3,8 @@ Contributors: ko31
 Donate link: https://go-sign.info
 Tags: slugs, permalink, translate, translation
 Requires at least: 4.3
-Tested up to: 4.9.4
-Stable tag: 1.1.0
+Tested up to: 4.9.6
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,6 +49,10 @@ You need to apply for an [IBM Cloud Lite](https://www.ibm.com/cloud/lite-account
 This plugin uses the username and password to query the translation engine. The username and password are not used except for query!
 
 == Changelog ==
+
+= 1.2.0 =
+* Fixed bugs
+* Add filter hook
 
 = 1.1.0 =
 * Add API settings check
