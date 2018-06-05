@@ -350,7 +350,7 @@ class simple_slug_translate {
 			if ( $result['code'] == 200 ) {
 				echo '<p class="description">' . sprintf( __( 'Username and password are valid', $this->text_domain ), $result['code'] ) . '</p>';
 			} else {
-				echo '<p class="description">' . sprintf( __( 'Invalid username or password ! (status: %s)', $this->text_domain ), $result['code'] ) . '</p>';
+				echo '<p class="description">' . sprintf( __( 'API settings is Invalid ! (status: %s)', $this->text_domain ), $result['code'] ) . '</p>';
 			}
         endif;
     }

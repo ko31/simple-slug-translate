@@ -31,6 +31,10 @@ Learn more:
 
 ## Changelog
 
+### 1.2.1
+
+* Update text
+
 ### 1.2.0
 
 * Fixed bugs
