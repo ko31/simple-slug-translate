@@ -3,7 +3,7 @@
  * Plugin Name:     Simple Slug Translate
  * Plugin URI:      https://github.com/ko31/simple-slug-translate
  * Description:     Simple Slug Translate can translate the post, page, category and taxonomy slugs to English automatically.
- * Version:         1.2.2
+ * Version:         2.0.0
  * Author:          Ko Takagi
  * Author URI:      https://go-sign.info
  * License:         GPLv2
@@ -177,17 +177,16 @@ class simple_slug_translate {
     {
 
         $this->options = get_option( $this->option_name );
-        if ( empty( $this->options['username'] ) ||
-            empty( $this->options['password'] ) ||
+        if ( empty( $this->options['apikey'] ) ||
             empty( $this->options['source'] ) ) {
 				return array(
 					'code' => '',
 					'text' => $text,
 				);
             }
-        $auth = base64_encode( $this->options['username'] . ':' . $this->options['password'] );
+        $auth = base64_encode( 'apikey:' . $this->options['apikey'] );
 
-        $endpoint = 'https://gateway.watsonplatform.net/language-translator/api/v2/translate';
+        $endpoint = 'https://gateway.watsonplatform.net/language-translator/api/v3/translate?version=2018-05-01';
 
         $response = wp_remote_post( $endpoint,
             array(
@@ -195,14 +194,14 @@ class simple_slug_translate {
                 'method' => 'POST',
                 'headers' => array(
                     'Accept' => 'application/json',
-                    'Content-Type' => 'application/x-www-form-urlencoded',
+                    'Content-Type' => 'application/json',
                     'Authorization' => 'Basic ' . $auth,
                 ),
-                'body' => array(
+                'body' => json_encode( array(
                     'text' => $text,
                     'source' => $this->options['source'],
                     'target' => 'en',
-                ),
+                ) ),
             )
         );
 
@@ -257,17 +256,9 @@ class simple_slug_translate {
         );
 
         add_settings_field(
-            'username',
-            __( 'Username', $this->text_domain ),
-            array( $this, 'username_callback' ),
-            $this->plugin_slug,
-            'api_settings'
-        );
-
-        add_settings_field(
-            'userpassword',
-            __( 'Password', $this->text_domain ),
-            array( $this, 'password_callback' ),
+            'apikey',
+            __( 'API key', $this->text_domain ),
+            array( $this, 'apikey_callback' ),
             $this->plugin_slug,
             'api_settings'
         );
@@ -302,12 +293,8 @@ class simple_slug_translate {
             $input = (array)$input;
         }
 
-        if ( ! $input['username'] ) {
-            add_settings_error( $this->plugin_slug, 'empty_username', __( 'Please input username', $this->text_domain ) );
-        }
-
-        if ( ! $input['password'] ) {
-            add_settings_error( $this->plugin_slug, 'empty_password', __( 'Please input password', $this->text_domain ) );
+        if ( ! $input['apikey'] ) {
+            add_settings_error( $this->plugin_slug, 'empty_apikey', __( 'Please input API key', $this->text_domain ) );
         }
 
         if ( ! $input['source'] ) {
@@ -321,34 +308,26 @@ class simple_slug_translate {
     }
 
     public function api_section_callback() {
-        echo '<p>' . __( 'Input your own username and password for Watson Language Translator API ( <a href="https://console.ng.bluemix.net/registration/free" target="_blank">Register</a> )', $this->text_domain ) . '</p>';
+        echo '<p>' . __( 'Input your own API key for Watson Language Translator API ( <a href="https://console.ng.bluemix.net/registration/free" target="_blank">Register</a> )', $this->text_domain ) . '</p>';
     }
 
     public function translation_section_callback() {
         return;
     }
 
-    public function username_callback() {
-        $username = isset( $this->options['username'] ) ? $this->options['username'] : '';
+    public function apikey_callback() {
+        $apikey = isset( $this->options['apikey'] ) ? $this->options['apikey'] : '';
 ?>
-<input name="<?php echo $this->option_name;?>[username]" type="text" id="username" value="<?php echo $username;?>" class="regular-text">
-<?php
-    }
-
-    public function password_callback() {
-        $password = isset( $this->options['password'] ) ? $this->options['password'] : '';
-?>
-<input name="<?php echo $this->option_name;?>[password]" type="text" id="password" value="<?php echo $password;?>" class="regular-text">
+<input name="<?php echo $this->option_name;?>[apikey]" type="text" id="apikey" value="<?php echo $apikey;?>" class="regular-text">
 <?php
     }
 
     public function checker_callback() {
-        $username = isset( $this->options['username'] ) ? $this->options['username'] : '';
-        $password = isset( $this->options['password'] ) ? $this->options['password'] : '';
-        if ( $username && $password ) :
+        $apikey = isset( $this->options['apikey'] ) ? $this->options['apikey'] : '';
+        if ( $apikey ) :
 			$result = $this->translate( 'test' );
 			if ( $result['code'] == 200 ) {
-				echo '<p class="description">' . sprintf( __( 'Username and password are valid', $this->text_domain ), $result['code'] ) . '</p>';
+				echo '<p class="description">' . sprintf( __( 'API settings is valid', $this->text_domain ), $result['code'] ) . '</p>';
 			} else {
 				echo '<p class="description">' . sprintf( __( 'API settings is Invalid ! (status: %s)', $this->text_domain ), $result['code'] ) . '</p>';
 			}
