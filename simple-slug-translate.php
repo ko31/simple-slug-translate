@@ -99,6 +99,10 @@ class simple_slug_translate {
             return $post_name;
         }
 
+        if ( empty( $post ) ) {
+            return $post_name;
+        }
+
         if ( ! $this->is_post_type( $post->post_type ) ) {
             return $post_name;
         }
