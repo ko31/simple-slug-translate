@@ -59,7 +59,8 @@ class simple_slug_translate {
         $options = get_option( $this->option_name );
         if ( empty( $options ) ) {
             add_option( $this->option_name, array(
-                'source' => $this->get_default_source()
+                'source' => $this->get_default_source(),
+                'post_types' => array( 'post', 'page' ),
             ) );
         }
         if ( ! wp_next_scheduled( 'daily_sample_event' ) ) {
@@ -79,6 +80,8 @@ class simple_slug_translate {
 
     public function plugins_loaded()
     {
+        $this->options = get_option( $this->option_name );
+
         load_plugin_textdomain(
             $this->text_domain,
             false,
@@ -89,6 +92,46 @@ class simple_slug_translate {
         add_action( 'admin_init', array( $this, 'admin_init' ) );
         add_filter( 'name_save_pre', array( $this, 'name_save_pre' ) );
         add_filter( 'wp_insert_term_data', array( $this, 'wp_insert_term_data' ), 10, 3 );
+
+        $this->activate_post_type();
+    }
+
+    public function activate_post_type()
+    {
+        if ( empty( $this->options['post_types'] ) ) {
+            return false;
+        }
+
+        foreach ( $this->options['post_types'] as $post_type ) {
+            add_filter( 'rest_insert_' . $post_type, array( $this, 'rest_insert_post' ), 10, 2 );
+        }
+    }
+
+    public function rest_insert_post( $post, $request )
+    {
+        if ( ! empty( $post->name ) ) {
+            return;
+        }
+
+        if ( ! $this->is_post_type( $post->post_type ) ) {
+            return;
+        }
+
+        if ( ! $this->is_post_status( $post->post_status ) ) {
+            return;
+        }
+
+        if ( empty( $post->post_title ) ) {
+            return;
+        }
+
+        $post_name = $this->call_translate( $post->post_title );
+        $post_name = wp_unique_post_slug( $post_name, $post->ID, $post->post_status, $post->post_type, $post->post_parent );
+
+        wp_update_post( [
+            'ID' => $post->ID,
+            'post_name' => $post_name,
+        ] );
     }
 
     public function name_save_pre( $post_name )
@@ -123,17 +166,17 @@ class simple_slug_translate {
 
     public function is_post_type( $post_type )
     {
-        /**
-         * Filters the post type to translate.
-         *
-         * @param array $types
-         */
-        $types = apply_filters( 'simple_slug_translate_post_type', array(
-            'post',
-            'page',
-        ) );
+        if ( empty( $this->options['post_types'] ) ) {
+            return false;
+        }
 
-        return in_array( $post_type, $types );
+        foreach ( $this->options['post_types'] as $enabled_post_type ) {
+            if ( $enabled_post_type == $post_type ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function is_post_status( $post_status )
@@ -179,8 +222,6 @@ class simple_slug_translate {
 
     public function translate( $text )
     {
-
-        $this->options = get_option( $this->option_name );
         if ( empty( $this->options['apikey'] ) ||
             empty( $this->options['source'] ) ) {
 				return array(
@@ -289,6 +330,21 @@ class simple_slug_translate {
             $this->plugin_slug,
             'translation_settings'
         );
+
+        add_settings_section(
+            'permission_settings',
+            __( 'Permission settings', $this->text_domain ),
+            array( $this, 'permission_section_callback' ),
+            $this->plugin_slug
+        );
+
+        add_settings_field(
+            'source',
+            __( 'Enabled post types', $this->text_domain ),
+            array( $this, 'post_types_callback' ),
+            $this->plugin_slug,
+            'permission_settings'
+        );
     }
 
     public function sanitize_callback( $input ) {
@@ -319,11 +375,15 @@ class simple_slug_translate {
         return;
     }
 
+    public function permission_section_callback() {
+        return;
+    }
+
     public function apikey_callback() {
         $apikey = isset( $this->options['apikey'] ) ? $this->options['apikey'] : '';
-?>
-<input name="<?php echo $this->option_name;?>[apikey]" type="text" id="apikey" value="<?php echo $apikey;?>" class="regular-text">
-<?php
+        ?>
+        <input name="<?php echo $this->option_name;?>[apikey]" type="text" id="apikey" value="<?php echo $apikey;?>" class="regular-text">
+        <?php
     }
 
     public function checker_callback() {
@@ -340,30 +400,53 @@ class simple_slug_translate {
 
     public function source_callback() {
         $source = isset( $this->options['source'] ) ? $this->options['source'] : 'en';
-?>
-<select name="<?php echo $this->option_name;?>[source]" id="source">
-<?php
+        ?>
+        <select name="<?php echo $this->option_name;?>[source]" id="source">
+        <?php
         foreach ( $this->get_supported_sources() as $k => $v ) {
             echo '<option value="' . $k . '" ' . ( ( $source == $k ) ? 'selected="selected"' : '' ) . '>' . $v . '</option>';
         }
-?>
-</select>
-<?php
+        ?>
+        </select>
+        <?php
+    }
+
+    public function post_types_callback() {
+        $post_types = get_post_types( array(
+            'show_ui' => true
+        ), 'objects' );
+        foreach ( $post_types as $post_type ) :
+            if ( $post_type->name == 'attachment' || $post_type->name == 'wp_block' ) :
+                continue;
+            endif;
+            ?>
+            <label>
+                <input
+                    type="checkbox"
+                    name="<?php echo $this->option_name; ?>[post_types][]"
+                    value="<?php echo $post_type->name; ?>"
+                    <?php if ( $this->is_post_type( $post_type->name ) ) : ?>
+                    checked="checked"
+                    <?php endif; ?>
+                />
+                <?php echo $post_type->labels->name?>
+            </label>
+            <?php
+        endforeach;
     }
 
     public function options_page()
     {
-        $this->options = get_option( $this->option_name );
-?>
-    <form action='options.php' method='post'>
-        <h1><?php echo __( 'Simple Slug Translate', $this->text_domain );?></h1>
-<?php
-        settings_fields( $this->plugin_slug );
-        do_settings_sections( $this->plugin_slug );
-        submit_button();
-?>
-    </form>
-<?php
+        ?>
+        <form action='options.php' method='post'>
+            <h1><?php echo __( 'Simple Slug Translate', $this->text_domain );?></h1>
+            <?php
+            settings_fields( $this->plugin_slug );
+            do_settings_sections( $this->plugin_slug );
+            submit_button();
+            ?>
+        </form>
+        <?php
     }
 
     public function get_default_source()
