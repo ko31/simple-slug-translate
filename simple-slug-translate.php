@@ -128,10 +128,10 @@ class simple_slug_translate {
         $post_name = $this->call_translate( $post->post_title );
         $post_name = wp_unique_post_slug( $post_name, $post->ID, $post->post_status, $post->post_type, $post->post_parent );
 
-        wp_update_post( [
+        wp_update_post( array(
             'ID' => $post->ID,
             'post_name' => $post_name,
-        ] );
+        ) );
     }
 
     public function name_save_pre( $post_name )
