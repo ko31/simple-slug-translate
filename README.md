@@ -22,6 +22,7 @@ In order to use the service, you can apply for an [IBM Cloud Lite](https://www.i
 1. "Dashboard"->"Settings"->"Simple Slug Translate"
 1. "API Settings": Input your own "API key".
 1. "Translation Settings": Choose your "Source language".
+1. "Permission Settings": Choose enable post types.
 1. When you will update the post, then the post slug will be automatically translated into English. The page, category and taxonomy as well.
 
 Learn more:
@@ -30,6 +31,12 @@ Learn more:
 * [Documentation(Japanese)](https://github.com/ko31/simple-slug-translate/wiki/%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88)
 
 ## Changelog
+
+### 2.1.0
+
+* Support Gutenberg 
+* Add post type settings
+* Fixed some bugs
 
 ### 2.0.0
 

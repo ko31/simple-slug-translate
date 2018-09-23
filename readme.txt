@@ -3,8 +3,8 @@ Contributors: ko31
 Donate link: https://go-sign.info
 Tags: slugs, permalink, translate, translation
 Requires at least: 4.3
-Tested up to: 4.9.7
-Stable tag: 2.0.0
+Tested up to: 4.9.8
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,7 @@ In order to use the service, you can apply for an [IBM Cloud Lite](https://www.i
 1. "Dashboard"->"Settings"->"Simple Slug Translate"
 1. "API Settings": Input your own "API key".
 1. "Translation Settings": Choose your "Source language".
+1. "Permission Settings": Choose enable post types.
 1. When you will update the post, then the post slug will be automatically translated into English. The page, category and taxonomy as well.
 
 Learn more:
@@ -49,6 +50,11 @@ You need to apply for an [IBM Cloud Lite](https://www.ibm.com/cloud/lite-account
 This plugin uses the API key to query the translation engine. The API key are not used except for query!
 
 == Changelog ==
+
+= 2.1.0 =
+* Support Gutenberg 
+* Add post type settings
+* Fixed some bugs
 
 = 2.0.0 =
 * Migrate to Language Translator API v3
