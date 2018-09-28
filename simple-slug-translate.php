@@ -268,10 +268,17 @@ class simple_slug_translate {
 			$text = sanitize_title( $body->translations[0]->translation );
 		}
 
-		return array(
+        /**
+         * Filters the translated results
+         *
+         * @param array $results
+         */
+        $results = apply_filters( 'simple_slug_translate_results', array(
 			'code' => $code,
 			'text' => $text,
-		);
+        ) );
+
+        return $results;
     }
 
     public function admin_menu()
