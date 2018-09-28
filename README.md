@@ -32,6 +32,10 @@ Learn more:
 
 ## Changelog
 
+### 2.2.0
+
+* Add filter hook
+
 ### 2.1.0
 
 * Support Gutenberg 
