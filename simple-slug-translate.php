@@ -3,7 +3,7 @@
  * Plugin Name:     Simple Slug Translate
  * Plugin URI:      https://github.com/ko31/simple-slug-translate
  * Description:     Simple Slug Translate can translate the post, page, category and taxonomy slugs to English automatically.
- * Version:         2.2.0
+ * Version:         2.3.0
  * Author:          Ko Takagi
  * Author URI:      https://go-sign.info
  * License:         GPLv2
@@ -217,7 +217,8 @@ class simple_slug_translate {
 		}
 		$auth = base64_encode( 'apikey:' . $this->options['apikey'] );
 
-		$endpoint = 'https://gateway.watsonplatform.net/language-translator/api/v3/translate?version=2018-05-01';
+		$location_endpoint = ( $this->options['endpoint'] ) ?: $this->get_default_endpoint();
+		$endpoint          = $location_endpoint . '/v3/translate?version=2018-05-01';
 
 		$response = wp_remote_post( $endpoint,
 			array(
@@ -300,6 +301,14 @@ class simple_slug_translate {
 		);
 
 		add_settings_field(
+			'endpoint',
+			__( 'Endpoint URL', $this->text_domain ),
+			array( $this, 'endpoint_callback' ),
+			$this->plugin_slug,
+			'api_settings'
+		);
+
+		add_settings_field(
 			'checker',
 			'',
 			array( $this, 'checker_callback' ),
@@ -359,7 +368,7 @@ class simple_slug_translate {
 	}
 
 	public function api_section_callback() {
-		echo '<p>' . __( 'Input your own API key for Watson Language Translator API ( <a href="https://console.ng.bluemix.net/registration/free" target="_blank">Register</a> )', $this->text_domain ) . '</p>';
+		echo '<p>' . __( 'Input your own API key, Endpoint URL for Watson Language Translator API ( <a href="https://console.ng.bluemix.net/registration/free" target="_blank">Register</a> )', $this->text_domain ) . '</p>';
 	}
 
 	public function translation_section_callback() {
@@ -375,6 +384,14 @@ class simple_slug_translate {
 		?>
         <input name="<?php echo $this->option_name; ?>[apikey]" type="text" id="apikey" value="<?php echo $apikey; ?>"
                class="regular-text">
+		<?php
+	}
+
+	public function endpoint_callback() {
+		$endpoint = isset( $this->options['endpoint'] ) ? $this->options['endpoint'] : '';
+		?>
+        <input name="<?php echo $this->option_name; ?>[endpoint]" type="text" id="endpoint" value="<?php echo $endpoint; ?>"
+               placeholder="https://gateway.watsonplatform.net/language-translator/api" class="regular-text">
 		<?php
 	}
 
@@ -467,6 +484,16 @@ class simple_slug_translate {
 			'pt' => 'pt - Portuguese',
 			'es' => 'es - Spanish',
 		);
+	}
+
+	public function is_supported_endpoints( $endpoints ) {
+		$endpointss = $this->get_supported_endpointss();
+
+		return ( isset( $endpointss[ $endpoints ] ) ) ? true : false;
+	}
+
+	public function get_default_endpoint() {
+	    return 'https://gateway.watsonplatform.net/language-translator/api';
 	}
 
 	public function mbfunctions_exist() {
