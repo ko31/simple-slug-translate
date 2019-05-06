@@ -32,6 +32,10 @@ Learn more:
 
 ## Changelog
 
+### 2.3.0
+
+* Support service endpoints by location
+
 ### 2.2.0
 
 * Add filter hook
