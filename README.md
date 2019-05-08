@@ -32,6 +32,10 @@ Learn more:
 
 ## Changelog
 
+### 2.3.1
+
+* Fixed bug
+
 ### 2.3.0
 
 * Support service endpoints by location
