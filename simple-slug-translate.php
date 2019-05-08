@@ -60,7 +60,7 @@ class simple_slug_translate {
 				'post_types' => array( 'post', 'page' ),
 			) );
 		}
-		if ( ! wp_next_scheduled( 'daily_sample_event' ) ) {
+		if ( ! wp_next_scheduled( $this->plugin_slug . '_scheduled_event' ) ) {
 			wp_schedule_event( time(), 'daily', $this->plugin_slug . '_scheduled_event' );
 		}
 	}
