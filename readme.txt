@@ -16,7 +16,29 @@ Simple Slug Translate can translate the post, page, category and taxonomy slugs 
 
 It can make the permalink looks more better, and also may be good for SEO.
 
-The translation engine is powered by [Watson Language Translator](https://www.ibm.com/watson/services/language-translator/). It supports 9 languages.(English, Arabic, French, German, Italian, Japanese, Portuguese, Korean, and Spanish)
+The translation engine is powered by [Watson Language Translator](https://www.ibm.com/watson/services/language-translator/). Thanks to that support the following languages:
+
+* Arabic
+* Czech
+* Danish
+* German
+* English
+* Spanish
+* Finnish
+* French
+* Hindi
+* Hungarian
+* Italian
+* Japanese
+* Korean
+* Norwegian Bokmal
+* Dutch
+* Polish
+* Portuguese
+* Swedish
+* Turkish
+* Simplified Chinese
+* Traditional Chinese
 
 In order to use the service, you can apply for an [IBM Cloud Lite](https://www.ibm.com/cloud/lite-account) account and get your own API key of Watson Language Translator. For free plan, you can translate up to 1,000,000 characters per month.
 
@@ -50,6 +72,9 @@ You need to apply for an [IBM Cloud Lite](https://www.ibm.com/cloud/lite-account
 This plugin uses the API key to query the translation engine. The API key are not used except for query!
 
 == Changelog ==
+
+= 2.4.0
+* Add supported languages
 
 = 2.3.1 =
 * Fixed bug
