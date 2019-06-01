@@ -4,7 +4,7 @@ Donate link: https://go-sign.info
 Tags: slugs, permalink, translate, translation
 Requires at least: 4.3
 Tested up to: 5.2
-Stable tag: 2.3.1
+Stable tag: 2.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,7 +73,7 @@ This plugin uses the API key to query the translation engine. The API key are no
 
 == Changelog ==
 
-= 2.4.0
+= 2.4.0 =
 * Add supported languages
 
 = 2.3.1 =
