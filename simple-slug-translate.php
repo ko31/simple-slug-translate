@@ -483,6 +483,18 @@ class simple_slug_translate {
 			'ko' => 'ko - Korean',
 			'pt' => 'pt - Portuguese',
 			'es' => 'es - Spanish',
+			'cs' => 'cs - Czech',
+			'da' => 'da - Danish',
+			'fi' => 'fi - Finnish',
+			'hi' => 'hi - Hindi',
+			'hu' => 'hu - Hungarian',
+			'nb' => 'nb - Norwegian Bokmal',
+			'nl' => 'nl - Dutch',
+			'pl' => 'pl - Polish',
+			'sv' => 'sv - Swedish',
+			'tr' => 'tr - Turkish',
+			'zh' => 'zh - Simplified Chinese',
+			'zh-TW' => 'zh-TW - Traditional Chinese',
 		);
 	}
 
