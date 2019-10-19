@@ -21,20 +21,23 @@ The translation engine is powered by [Watson Language Translator](https://www.ib
 * Arabic
 * Czech
 * Danish
+* Dutch
 * German
+* Greek
 * English
 * Spanish
 * Finnish
 * French
+* Hebrew
 * Hindi
 * Hungarian
 * Italian
 * Japanese
 * Korean
 * Norwegian Bokmal
-* Dutch
 * Polish
 * Portuguese
+* Russian
 * Swedish
 * Turkish
 * Simplified Chinese
