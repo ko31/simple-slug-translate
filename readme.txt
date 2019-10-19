@@ -19,7 +19,6 @@ It can make the permalink looks more better, and also may be good for SEO.
 The translation engine is powered by [Watson Language Translator](https://www.ibm.com/watson/services/language-translator/). Thanks to that support the following languages:
 
 * Arabic
-* Catalan
 * Czech
 * Danish
 * Dutch
