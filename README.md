@@ -16,20 +16,23 @@ The translation engine is powered by [Watson Language Translator](https://www.ib
 * Arabic
 * Czech
 * Danish
+* Dutch
 * German
+* Greek
 * English
 * Spanish
 * Finnish
 * French
+* Hebrew
 * Hindi
 * Hungarian
 * Italian
 * Japanese
 * Korean
 * Norwegian Bokmal
-* Dutch
 * Polish
 * Portuguese
+* Russian
 * Swedish
 * Turkish
 * Simplified Chinese
@@ -53,6 +56,10 @@ Learn more:
 * [Documentation(Japanese)](https://github.com/ko31/simple-slug-translate/wiki/%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88)
 
 ## Changelog
+
+### 2.5.0
+
+* Add supported languages
 
 ### 2.4.0
 
