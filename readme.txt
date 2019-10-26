@@ -74,6 +74,24 @@ You need to apply for an [IBM Cloud Lite](https://www.ibm.com/cloud/lite-account
 
 This plugin uses the API key to query the translation engine. The API key are not used except for query!
 
+= If the slug is already registered, will the translated slug be overwritten? =
+
+Whether the slug is overwritten can be switched with the following settings.
+
+* "Dashboard"->"Settings"->"Simple Slug Translate"->"Overwrite"
+
+= Can I customize the translated slug? =
+
+You can customize the slug by hooking it to the `simple_slug_translate_results` filter.
+
+https://gist.github.com/ko31/1eb9f637b7ba25df5f82fa6bc44f3eb1
+
+= Is it possible to translate only when the posting status is fixed? =
+
+You can customize the slug by hooking it to the `simple_slug_translate_post_status` filter.
+
+https://gist.github.com/ko31/7ceb837d63e0a41c50f0839145448cdf
+
 == Changelog ==
 
 = 2.6.0 =
