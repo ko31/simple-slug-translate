@@ -3,7 +3,7 @@
  * Plugin Name:     Simple Slug Translate
  * Plugin URI:      https://github.com/ko31/simple-slug-translate
  * Description:     Simple Slug Translate can translate the post, page, category and taxonomy slugs to English automatically.
- * Version:         2.5.0
+ * Version:         2.6.0
  * Author:          Ko Takagi
  * Author URI:      https://go-sign.info
  * License:         GPLv2
@@ -101,7 +101,8 @@ class simple_slug_translate {
 	}
 
 	public function rest_insert_post( $post, $request ) {
-		if ( ! empty( $post->name ) ) {
+
+		if ( empty( $this->options['overwrite'] ) && ! empty( $post->post_name ) ) {
 			return;
 		}
 
@@ -129,7 +130,12 @@ class simple_slug_translate {
 	public function name_save_pre( $post_name ) {
 		global $post;
 
-		if ( $post_name ) {
+		// Do nothing when API is called.
+		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+			return $post_name;
+		}
+
+		if ( empty( $this->options['overwrite'] ) && $post_name ) {
 			return $post_name;
 		}
 
@@ -345,6 +351,14 @@ class simple_slug_translate {
 			$this->plugin_slug,
 			'permission_settings'
 		);
+
+		add_settings_field(
+			'overwrite',
+			__( 'Overwrite', $this->text_domain ),
+			array( $this, 'overwrite_callback' ),
+			$this->plugin_slug,
+			'permission_settings'
+		);
 	}
 
 	public function sanitize_callback( $input ) {
@@ -442,6 +456,23 @@ class simple_slug_translate {
             </label>
 		<?php
 		endforeach;
+	}
+
+	public function overwrite_callback() {
+		$overwrite = isset( $this->options['overwrite'] ) ? $this->options['overwrite'] : '';
+		?>
+        <label>
+            <input
+                    type="checkbox"
+                    name="<?php echo $this->option_name; ?>[overwrite]"
+                    value="1"
+				<?php if ( $overwrite ) : ?>
+                    checked="checked"
+				<?php endif; ?>
+            />
+			<?php _e( 'Check if you want to overwrite the slug', $this->text_domain ); ?>
+        </label>
+		<?php
 	}
 
 	public function options_page() {

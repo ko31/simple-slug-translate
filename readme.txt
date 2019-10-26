@@ -4,7 +4,7 @@ Donate link: https://go-sign.info
 Tags: slugs, permalink, translate, translation
 Requires at least: 4.3
 Tested up to: 5.2
-Stable tag: 2.5.0
+Stable tag: 2.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,6 +75,10 @@ You need to apply for an [IBM Cloud Lite](https://www.ibm.com/cloud/lite-account
 This plugin uses the API key to query the translation engine. The API key are not used except for query!
 
 == Changelog ==
+
+= 2.6.0 =
+* Fixed bug
+* Add overwrite settings
 
 = 2.5.0 =
 * Add supported languages

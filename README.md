@@ -57,6 +57,11 @@ Learn more:
 
 ## Changelog
 
+### 2.6.0
+
+* Fixed bug
+* Add overwrite settings
+
 ### 2.5.0
 
 * Add supported languages
