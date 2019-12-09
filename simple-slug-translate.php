@@ -102,7 +102,11 @@ class simple_slug_translate {
 
 	public function rest_insert_post( $post, $request ) {
 
-		if ( empty( $this->options['overwrite'] ) && ! empty( $post->post_name ) ) {
+		if (
+			empty( $this->options['overwrite'] )
+			&& ! empty( $post->post_name )
+			&& ( strtolower( $post->post_name ) !== strtolower( urlencode( $post->post_title ) ) ) /* Except when publishing immediately */
+		) {
 			return;
 		}
 
