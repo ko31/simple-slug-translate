@@ -536,12 +536,6 @@ class simple_slug_translate {
 		);
 	}
 
-	public function is_supported_endpoints( $endpoints ) {
-		$endpointss = $this->get_supported_endpointss();
-
-		return ( isset( $endpointss[ $endpoints ] ) ) ? true : false;
-	}
-
 	public function get_default_endpoint() {
 	    return 'https://gateway.watsonplatform.net/language-translator/api';
 	}
