@@ -57,6 +57,10 @@ Learn more:
 
 ## Changelog
 
+### 2.6.2
+
+* Fixed bug
+
 ### 2.6.1
 
 * Fixed bug

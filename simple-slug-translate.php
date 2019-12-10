@@ -3,7 +3,7 @@
  * Plugin Name:     Simple Slug Translate
  * Plugin URI:      https://github.com/ko31/simple-slug-translate
  * Description:     Simple Slug Translate can translate the post, page, category and taxonomy slugs to English automatically.
- * Version:         2.6.1
+ * Version:         2.6.2
  * Author:          Ko Takagi
  * Author URI:      https://go-sign.info
  * License:         GPLv2
