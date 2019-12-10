@@ -1,6 +1,6 @@
 === Simple Slug Translate ===
 Contributors: ko31
-Donate link: https://go-sign.info
+Donate link: https://ko-fi.com/kotakagi
 Tags: slugs, permalink, translate, translation
 Requires at least: 4.3
 Tested up to: 5.3
