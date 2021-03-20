@@ -3,8 +3,8 @@ Contributors: ko31
 Donate link: https://ko-fi.com/kotakagi
 Tags: slugs, permalink, translate, translation
 Requires at least: 4.3
-Tested up to: 5.5
-Stable tag: 2.6.2
+Tested up to: 5.7
+Stable tag: 2.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,27 +19,42 @@ It can make the permalink looks more better, and also may be good for SEO.
 The translation engine is powered by [Watson Language Translator](https://www.ibm.com/watson/services/language-translator/). Thanks to that support the following languages:
 
 * Arabic
+* Bulgarian
+* Bengali
 * Czech
 * Danish
-* Dutch
 * German
 * Greek
 * English
 * Spanish
 * Finnish
 * French
+* Gujarati
 * Hebrew
 * Hindi
 * Hungarian
 * Italian
 * Japanese
 * Korean
+* Latvian
+* Malayalam
 * Norwegian Bokmal
+* Nepali
+* Dutch
 * Polish
 * Portuguese
+* Romanian
 * Russian
+* Sinhala
+* Slovakian
+* Slovenian
+* Serbian
 * Swedish
+* Thai
 * Turkish
+* Ukrainian
+* Urdu
+* Vietnamese
 * Simplified Chinese
 * Traditional Chinese
 
@@ -94,6 +109,11 @@ https://gist.github.com/ko31/7ceb837d63e0a41c50f0839145448cdf
 
 == Changelog ==
 
+= 2.7.0 =
+* Add supported languages
+* Add uninstalling process
+* Removed endpoint default value
+
 = 2.6.2 =
 * Fixed bug
 
@@ -120,7 +140,7 @@ https://gist.github.com/ko31/7ceb837d63e0a41c50f0839145448cdf
 * Add filter hook
 
 = 2.1.0 =
-* Support Gutenberg 
+* Support Gutenberg
 * Add post type settings
 * Fixed some bugs
 

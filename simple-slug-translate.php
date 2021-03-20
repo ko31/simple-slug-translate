@@ -3,7 +3,7 @@
  * Plugin Name:     Simple Slug Translate
  * Plugin URI:      https://github.com/ko31/simple-slug-translate
  * Description:     Simple Slug Translate can translate the post, page, category and taxonomy slugs to English automatically.
- * Version:         2.6.2
+ * Version:         2.7.0
  * Author:          Ko Takagi
  * Author URI:      https://go-sign.info
  * License:         GPLv2
@@ -219,16 +219,16 @@ class simple_slug_translate {
 
 	public function translate( $text ) {
 		if ( empty( $this->options['apikey'] ) ||
+		     empty( $this->options['endpoint'] ) ||
 		     empty( $this->options['source'] ) ) {
 			return array(
-				'code' => '',
+				'code' => '0',
 				'text' => $text,
 			);
 		}
 		$auth = base64_encode( 'apikey:' . $this->options['apikey'] );
 
-		$location_endpoint = ( $this->options['endpoint'] ) ?: $this->get_default_endpoint();
-		$endpoint          = $location_endpoint . '/v3/translate?version=2018-05-01';
+		$endpoint = $this->options['endpoint'] . '/v3/translate?version=2018-05-01';
 
 		$response = wp_remote_post( $endpoint,
 			array(
@@ -409,7 +409,7 @@ class simple_slug_translate {
 		$endpoint = isset( $this->options['endpoint'] ) ? $this->options['endpoint'] : '';
 		?>
         <input name="<?php echo $this->option_name; ?>[endpoint]" type="text" id="endpoint" value="<?php echo $endpoint; ?>"
-               placeholder="https://gateway.watsonplatform.net/language-translator/api" class="regular-text">
+               placeholder="" class="regular-text">
 		<?php
 	}
 
@@ -510,6 +510,8 @@ class simple_slug_translate {
 	public function get_supported_sources() {
 		return array(
 			'ar' => 'ar - Arabic',
+			'bg' => 'bg - Bulgarian',
+			'bn' => 'bn - Bengali',
 			'cs' => 'cs - Czech',
 			'da' => 'da - Danish',
 			'de' => 'de - German',
@@ -518,26 +520,35 @@ class simple_slug_translate {
 			'es' => 'es - Spanish',
 			'fi' => 'fi - Finnish',
 			'fr' => 'fr - French',
+			'gu' => 'gu - Gujarati',
 			'he' => 'he - Hebrew',
 			'hi' => 'hi - Hindi',
 			'hu' => 'hu - Hungarian',
 			'it' => 'it - Italian',
 			'ja' => 'ja - Japanese',
 			'ko' => 'ko - Korean',
+			'lv' => 'lv - Latvian',
+			'ml' => 'ml - Malayalam',
 			'nb' => 'nb - Norwegian Bokmal',
+			'ne' => 'ne - Nepali',
 			'nl' => 'nl - Dutch',
 			'pl' => 'pl - Polish',
 			'pt' => 'pt - Portuguese',
+			'ro' => 'ro - Romanian',
 			'ru' => 'ru - Russian',
+			'si' => 'si - Sinhala',
+			'sk' => 'sk - Slovakian',
+			'sl' => 'sl - Slovenian',
+			'sr' => 'sr - Serbian',
 			'sv' => 'sv - Swedish',
+			'th' => 'th - Thai',
 			'tr' => 'tr - Turkish',
+			'uk' => 'uk - Ukrainian',
+			'ur' => 'ur - Urdu',
+			'vi' => 'vi - Vietnamese',
 			'zh' => 'zh - Simplified Chinese',
 			'zh-TW' => 'zh-TW - Traditional Chinese',
 		);
-	}
-
-	public function get_default_endpoint() {
-	    return 'https://gateway.watsonplatform.net/language-translator/api';
 	}
 
 	public function mbfunctions_exist() {
