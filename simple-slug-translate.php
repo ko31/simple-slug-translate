@@ -219,16 +219,16 @@ class simple_slug_translate {
 
 	public function translate( $text ) {
 		if ( empty( $this->options['apikey'] ) ||
+		     empty( $this->options['endpoint'] ) ||
 		     empty( $this->options['source'] ) ) {
 			return array(
-				'code' => '',
+				'code' => '0',
 				'text' => $text,
 			);
 		}
 		$auth = base64_encode( 'apikey:' . $this->options['apikey'] );
 
-		$location_endpoint = ( $this->options['endpoint'] ) ?: $this->get_default_endpoint();
-		$endpoint          = $location_endpoint . '/v3/translate?version=2018-05-01';
+		$endpoint = $this->options['endpoint'] . '/v3/translate?version=2018-05-01';
 
 		$response = wp_remote_post( $endpoint,
 			array(
@@ -409,7 +409,7 @@ class simple_slug_translate {
 		$endpoint = isset( $this->options['endpoint'] ) ? $this->options['endpoint'] : '';
 		?>
         <input name="<?php echo $this->option_name; ?>[endpoint]" type="text" id="endpoint" value="<?php echo $endpoint; ?>"
-               placeholder="https://gateway.watsonplatform.net/language-translator/api" class="regular-text">
+               placeholder="" class="regular-text">
 		<?php
 	}
 
@@ -534,10 +534,6 @@ class simple_slug_translate {
 			'zh' => 'zh - Simplified Chinese',
 			'zh-TW' => 'zh-TW - Traditional Chinese',
 		);
-	}
-
-	public function get_default_endpoint() {
-	    return 'https://gateway.watsonplatform.net/language-translator/api';
 	}
 
 	public function mbfunctions_exist() {
