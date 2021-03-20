@@ -72,6 +72,12 @@ Learn more:
 
 ## Changelog
 
+### 2.7.0
+
+* Add supported languages
+* Add uninstalling process
+* Removed endpoint default value
+
 ### 2.6.2
 
 * Fixed bug
