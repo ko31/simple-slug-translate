@@ -72,6 +72,10 @@ Learn more:
 
 ## Changelog
 
+### 2.7.1
+
+* Fixed bug
+
 ### 2.7.0
 
 * Add supported languages
