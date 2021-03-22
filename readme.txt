@@ -4,7 +4,7 @@ Donate link: https://ko-fi.com/kotakagi
 Tags: slugs, permalink, translate, translation
 Requires at least: 4.3
 Tested up to: 5.7
-Stable tag: 2.7.1
+Stable tag: 2.7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -108,6 +108,9 @@ You can customize the slug by hooking it to the `simple_slug_translate_post_stat
 https://gist.github.com/ko31/7ceb837d63e0a41c50f0839145448cdf
 
 == Changelog ==
+
+= 2.7.2 =
+* Add taxonomy settings
 
 = 2.7.1 =
 * Fixed bug
