@@ -179,6 +179,20 @@ class simple_slug_translate {
 		return false;
 	}
 
+	public function is_taxonomy( $taxonomy ) {
+		if ( empty( $this->options['taxonomies'] ) ) {
+			return false;
+		}
+
+		foreach ( $this->options['taxonomies'] as $enabled_taxonomy ) {
+			if ( $enabled_taxonomy == $taxonomy ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	public function is_post_status( $post_status ) {
 		/**
 		 * Filters the post status to translate.
@@ -194,6 +208,10 @@ class simple_slug_translate {
 	}
 
 	public function wp_insert_term_data( $data, $taxonomy, $args ) {
+		if ( ! $this->is_taxonomy( $taxonomy ) ) {
+			return $data;
+		}
+
 		if ( ! empty( $data ) && empty( $args['slug'] ) ) {
 			$slug         = $this->call_translate( $data['name'] );
 			$slug         = wp_unique_term_slug( $slug, (object) $args );
@@ -357,6 +375,14 @@ class simple_slug_translate {
 		);
 
 		add_settings_field(
+			'taxonomies',
+			__( 'Enabled taxonomies', $this->text_domain ),
+			array( $this, 'taxonomies_callback' ),
+			$this->plugin_slug,
+			'permission_settings'
+		);
+
+		add_settings_field(
 			'overwrite',
 			__( 'Overwrite', $this->text_domain ),
 			array( $this, 'overwrite_callback' ),
@@ -457,6 +483,27 @@ class simple_slug_translate {
 					<?php endif; ?>
                 />
 				<?php echo $post_type->labels->name ?>
+            </label>
+		<?php
+		endforeach;
+	}
+
+	public function taxonomies_callback() {
+		$taxonomies = get_taxonomies( array(
+			'show_ui' => true
+		), 'objects' );
+		foreach ( $taxonomies as $taxonomy ) :
+			?>
+            <label>
+                <input
+                        type="checkbox"
+                        name="<?php echo $this->option_name; ?>[taxonomies][]"
+                        value="<?php echo $taxonomy->name; ?>"
+	                <?php if ( $this->is_taxonomy( $taxonomy->name ) ) : ?>
+                        checked="checked"
+	                <?php endif; ?>
+                />
+				<?php echo $taxonomy->labels->name ?>
             </label>
 		<?php
 		endforeach;
