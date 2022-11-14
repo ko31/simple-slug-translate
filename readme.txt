@@ -3,7 +3,7 @@ Contributors: ko31
 Donate link: https://ko-fi.com/kotakagi
 Tags: slugs, permalink, translate, translation
 Requires at least: 4.3
-Tested up to: 5.7
+Tested up to: 6.1
 Stable tag: 2.7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
