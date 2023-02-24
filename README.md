@@ -72,6 +72,10 @@ Learn more:
 
 ## Changelog
 
+### 2.7.3
+
+* Fixed bug
+
 ### 2.7.2
 
 * Add taxonomy settings

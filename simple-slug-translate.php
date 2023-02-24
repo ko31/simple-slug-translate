@@ -3,7 +3,7 @@
  * Plugin Name:     Simple Slug Translate
  * Plugin URI:      https://github.com/ko31/simple-slug-translate
  * Description:     Simple Slug Translate can translate the post, page, category and taxonomy slugs to English automatically.
- * Version:         2.7.2
+ * Version:         2.7.3
  * Author:          Ko Takagi
  * Author URI:      https://go-sign.info
  * License:         GPLv2
@@ -426,7 +426,7 @@ class simple_slug_translate {
 	public function apikey_callback() {
 		$apikey = isset( $this->options['apikey'] ) ? $this->options['apikey'] : '';
 		?>
-        <input name="<?php echo $this->option_name; ?>[apikey]" type="text" id="apikey" value="<?php echo $apikey; ?>"
+        <input name="<?php echo $this->option_name; ?>[apikey]" type="text" id="apikey" value="<?php echo esc_html( $apikey ); ?>"
                class="regular-text">
 		<?php
 	}
@@ -434,7 +434,7 @@ class simple_slug_translate {
 	public function endpoint_callback() {
 		$endpoint = isset( $this->options['endpoint'] ) ? $this->options['endpoint'] : '';
 		?>
-        <input name="<?php echo $this->option_name; ?>[endpoint]" type="text" id="endpoint" value="<?php echo $endpoint; ?>"
+        <input name="<?php echo $this->option_name; ?>[endpoint]" type="text" id="endpoint" value="<?php echo esc_html( $endpoint ); ?>"
                placeholder="<?php echo esc_attr( $this->get_default_endpoint() ); ?>" class="regular-text">
 		<?php
 	}
@@ -444,9 +444,9 @@ class simple_slug_translate {
 		if ( $apikey ) :
 			$result = $this->translate( 'test' );
 			if ( $result['code'] == 200 ) {
-				echo '<p class="description">' . sprintf( __( 'API settings is valid', $this->text_domain ), $result['code'] ) . '</p>';
+				echo '<p class="description">' . sprintf( __( 'API settings is valid', $this->text_domain ), esc_html( $result['code'] ) ) . '</p>';
 			} else {
-				echo '<p class="description">' . sprintf( __( 'API settings is Invalid ! (status: %s)', $this->text_domain ), $result['code'] ) . '</p>';
+				echo '<p class="description">' . sprintf( __( 'API settings is Invalid ! (status: %s)', $this->text_domain ), esc_html( $result['code'] ) ) . '</p>';
 			}
 		endif;
 	}
@@ -457,7 +457,7 @@ class simple_slug_translate {
         <select name="<?php echo $this->option_name; ?>[source]" id="source">
 			<?php
 			foreach ( $this->get_supported_sources() as $k => $v ) {
-				echo '<option value="' . $k . '" ' . ( ( $source == $k ) ? 'selected="selected"' : '' ) . '>' . $v . '</option>';
+				echo '<option value="' . esc_attr( $k ) . '" ' . ( ( $source == $k ) ? 'selected="selected"' : '' ) . '>' . esc_html( $v ) . '</option>';
 			}
 			?>
         </select>
@@ -476,13 +476,13 @@ class simple_slug_translate {
             <label>
                 <input
                         type="checkbox"
-                        name="<?php echo $this->option_name; ?>[post_types][]"
-                        value="<?php echo $post_type->name; ?>"
+                        name="<?php echo esc_attr( $this->option_name ); ?>[post_types][]"
+                        value="<?php echo esc_attr( $post_type->name ); ?>"
 					<?php if ( $this->is_post_type( $post_type->name ) ) : ?>
                         checked="checked"
 					<?php endif; ?>
                 />
-				<?php echo $post_type->labels->name ?>
+				<?php echo esc_html( $post_type->labels->name ); ?>
             </label>
 		<?php
 		endforeach;
@@ -497,13 +497,13 @@ class simple_slug_translate {
             <label>
                 <input
                         type="checkbox"
-                        name="<?php echo $this->option_name; ?>[taxonomies][]"
-                        value="<?php echo $taxonomy->name; ?>"
+                        name="<?php echo esc_attr( $this->option_name ); ?>[taxonomies][]"
+                        value="<?php echo esc_attr( $taxonomy->name ); ?>"
 	                <?php if ( $this->is_taxonomy( $taxonomy->name ) ) : ?>
                         checked="checked"
 	                <?php endif; ?>
                 />
-				<?php echo $taxonomy->labels->name ?>
+				<?php echo esc_html( $taxonomy->labels->name ); ?>
             </label>
 		<?php
 		endforeach;
@@ -515,7 +515,7 @@ class simple_slug_translate {
         <label>
             <input
                     type="checkbox"
-                    name="<?php echo $this->option_name; ?>[overwrite]"
+                    name="<?php echo esc_attr( $this->option_name ); ?>[overwrite]"
                     value="1"
 				<?php if ( $overwrite ) : ?>
                     checked="checked"
